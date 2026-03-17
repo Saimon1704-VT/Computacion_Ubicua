@@ -1,31 +1,36 @@
-#include <DHT.h>
+#include <DHT.h>  // Librería del sensor DHT
 
-#define DHTPIN 2      // pin OUT
-#define DHTTYPE DHT11 // tipo de sensor
+#define DHTPIN 2      // Pin donde conectas el sensor
+#define DHTTYPE DHT11 // Tipo de sensor
 
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHTPIN, DHTTYPE); // Se crea el objeto del sensor
 
 void setup() {
-  Serial.begin(9600);
-  dht.begin();
+  Serial.begin(9600); // Inicia el monitor serial
+  dht.begin();        // Inicia el sensor
 }
 
 void loop() {
 
-  float humedad = dht.readHumidity();
-  float temperatura = dht.readTemperature();
+  // Leer datos del sensor
+  float humedad = dht.readHumidity();        // Humedad en %
+  float temperatura = dht.readTemperature(); // Temperatura en °C
 
+  // Verifica si el sensor falló
   if (isnan(humedad) || isnan(temperatura)) {
     Serial.println("Error al leer el sensor");
-    return;
+    return; // Sale y vuelve a intentar
   }
 
+  // Mostrar temperatura
   Serial.print("Temperatura: ");
   Serial.print(temperatura);
   Serial.print(" °C  ");
 
+  // Mostrar humedad
   Serial.print("Humedad: ");
   Serial.print(humedad);
   Serial.println(" %");
 
-  delay(2000); // el DHT11 necesita ~2 segundos entre lecturas
+  delay(2000); // Espera 2 segundos (el sensor lo necesita)
+}
